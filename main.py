@@ -13,11 +13,11 @@ load_dotenv()
 
 CLIENT_ID = os.getenv("CLIENT_ID")
 CLIENT_SECRET = os.getenv("CLIENT_SECRET")
-DB_USER = 'DB_USER'
-DB_PASSWORD = 'DB_PASSWORD'
-DB_HOST = 'DB_HOST'
-DB_PORT = 'DB_PORT'
-DB_NAME = 'DB_NAME'
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_HOST = os.getenv('DB_HOST')
+DB_PORT = os.getenv('DB_PORT')
+DB_NAME = os.getenv('DB_NAME')
 
 def check_if_valid_data(df: pd.DataFrame) -> bool:
     
@@ -81,9 +81,11 @@ if __name__ == "__main__":
     
     songs_df = pd.DataFrame(songs_dict, columns=['id', 'name', 'artist_name', 'day_of_list', 'timestamp'])
     
-    # Validation (trnasform) Stage
+    # Validation (trnasform) Stage   
+    stage2_is_valid = False
     try:
-        if check_if_valid_data(songs_df):
+        stage2_is_valid = check_if_valid_data(songs_df)
+        if stage2_is_valid:
             print('Available to continue with the Loading Stage')
     except Exception as err:
         print('An error has occurred in the transformation stage: ', err)
@@ -103,7 +105,7 @@ if __name__ == "__main__":
         """ Song Class
         """
         
-        __tablename__ = 'songs_temp'       
+        __tablename__ = 'songs'       
         id = Column(UUID, primary_key=True)
         name = Column(String(50), nullable=False)
         artist_name = Column(String(50), nullable=False)
@@ -112,25 +114,26 @@ if __name__ == "__main__":
     
     Base.metadata.create_all(engine)
     
-    # I convert the df in dict wtih objects
-    songs_objects = [
-        {
-            'id': uuid.uuid4(),
-            'name': name,
-            'artist_name': artist_name,
-            'day_of_list': day,
-            'timestamp': timestamp
-        }
-        for name, artist_name, day, timestamp in zip(songs_names, artist_names, day_of_list, timestamps)
-    ]
-    
-    try:
-        session.bulk_insert_mappings(Song, songs_objects)
-        session.commit()
-    except SQLAlchemyError as err:
-        print('Error: ', err)
-    finally:
-        session.close()  
+    if stage2_is_valid:
+        # I convert the df in dict wtih objects
+        songs_objects = [
+            {
+                'id': uuid.uuid4(),
+                'name': name,
+                'artist_name': artist_name,
+                'day_of_list': day,
+                'timestamp': timestamp
+            }
+            for name, artist_name, day, timestamp in zip(songs_names, artist_names, day_of_list, timestamps)
+        ]
+        
+        try:
+            session.bulk_insert_mappings(Song, songs_objects)
+            session.commit()
+        except SQLAlchemyError as err:
+            print('Error: ', err)
+        finally:
+            session.close()  
     
     # Insert without model(Song) neither ORM 
     #songs_df.to_sql('songs', engine, index=False, if_exists='append')
