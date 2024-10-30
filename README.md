@@ -30,11 +30,11 @@ Navigate to the root directory of the project and create a file named `.env`. Ad
 CLIENT_ID           required for spotipy
 CLIENT_SECRET       required for spotipy
 
-DB_USER             required for Docker Postgres DB
-DB_PASSWORD         required for Docker Postgres DB
-DB_HOSY             required for Docker Postgres DB
-DB_PORT             required for Docker Postgres DB
-DB_NAME             required for Docker Postgres DB
+DB_USER             required for Docker Postgres DB Container
+DB_PASSWORD         required for Docker Postgres DB Container
+DB_HOSY             required for Docker Postgres DB Container
+DB_PORT             required for Docker Postgres DB Container
+DB_NAME             required for Docker Postgres DB Container
 ```
 
 ### 3. Start the Docker Compose
