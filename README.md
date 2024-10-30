@@ -3,6 +3,8 @@
 ## Description
 A Spotify ETL project is an starter data engineering project I'm doing to learn and improve the ETL process in the data engineering world.
 
+This project extracts information from Spotify's Top50 Colombia playlist of the current day, performs a series of validations on the captured data and stores it in a postgres database in order to be able to perform a future data analysis on this information.
+
 ## Authors
 - **[David (Dave) Rios](https://github.com/DaveRios97)** - *Backend Software Developer seeking a position as a Data Engineer or Data Analyst*
 
