@@ -10,9 +10,6 @@ A Spotify ETL project is an starter data engineering project I'm doing to learn 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
-- [Data Sources](#data-sources)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
